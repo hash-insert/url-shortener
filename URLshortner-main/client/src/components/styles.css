@@ -1,0 +1,7 @@
+.main{
+    display: flex;
+    align-items: center;
+}
+body{
+    background-color: rgb(224, 237, 241);
+}
