@@ -39,9 +39,13 @@
         </button>
       </form>
 
-      <div id="shortenedUrl" style="display: none">
+      <div id="shortenedUrl" style="display: flex">
         <p><b>Your Shortened URL :&nbsp;</b></p>
-        <a id="shortenedUrlLink"></a>
+        <% shortUrls.slice(-1).map(shortUrl => { %>
+        <a href="<%= shortUrl.short %>"
+          ><%= `https://urlshortener-dev.onrender.com/${shortUrl.short}`%></a
+        >
+        <% }) %>
       </div>
 
       <p id="withoutFullUrl" style="display: none" class="bg-white text-danger">
@@ -86,18 +90,17 @@
         urlsTableDiv.style.display = "block";
       });
 
-      currentShortenedUrl.addEventListener("click", function () {
+      currentShortenedUrl.addEventListener("click", async function () {
         if (fullUrlInput.value === "") {
           withoutFullUrl.style.display = "flex";
-        } else {
-          const shortUrl =
-            "<%= shortUrls && Object.keys(shortUrls).length > 0 ? shortUrls[Object.keys(shortUrls)[Object.keys(shortUrls).length - 1]].short : '' %>";
-          const fullShortUrl = `https://urlshortener-dev.onrender.com/${shortUrl}`;
-          shortenedUrlLink.href = fullShortUrl;
-          shortenedUrlLink.textContent = fullShortUrl;
-          shortenedUrl.style.display = "flex";
         }
       });
+
+      const refreshed = performance.navigation.type === 1;
+      if (refreshed) {
+        const shortenedUrl = document.getElementById("shortenedUrl");
+        shortenedUrl.style.display = "none";
+      }
     </script>
   </body>
 </html>
