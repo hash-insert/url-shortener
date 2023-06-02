@@ -1,0 +1,92 @@
+<!-- views/landingPage.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to the URL Shortener!</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            background-color: black;
+            color: #ffffff;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 0px;
+            border-radius: 5px;
+        }
+
+        button,
+        .btn {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+    <script>
+        function updateFormAction() {
+            var aliasInput = document.getElementById('aliasInput');
+            var form = document.getElementById('urlForm');
+
+            if (aliasInput.value.trim() !== '') {
+                form.action = '/map';
+            } else {
+                form.action = '/shorten';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <% if (shortenedURL) { %>
+            <h1>Shortened URL:</h1>
+            <p>
+                <%= shortenedURL %>
+            </p>
+            <a href="/" class="btn">Go back</a>
+            <% } else { %>
+                <h1>Welcome to URL shortener</h1>
+
+                <p>Thank you for visiting! Please provide your information below:</p>
+
+                <form id="urlForm" method="post">
+                    <input type="text" name="url" placeholder="Enter URL...." required>
+                    <input type="text" id="aliasInput" name="alias" placeholder="Enter alias">
+                    <% if (aliasExistsError) { %>
+                        <p class="error-message">
+                            <%= aliasExistsError %>
+                        </p>
+                        <% } %>
+                            <button type="submit" onclick="updateFormAction()">Submit</button>
+                </form>
+                <% } %>
+    </div>
+</body>
+
+</html>
